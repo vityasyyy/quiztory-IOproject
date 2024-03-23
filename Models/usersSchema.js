@@ -8,7 +8,14 @@ const usersSchema = new Schema({
         required: true,
         unique: true
     },
-    score: Number
+    scores: Number,
+    answered: Number,
+    answeredQuestions: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Question"
+        }
+    ]
 })
 
 usersSchema.plugin(passportLocalMongoose)
