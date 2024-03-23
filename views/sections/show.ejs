@@ -1,0 +1,57 @@
+<% layout('layouts/boilerplate') %>
+<div id="carouselExampleControls" class="carousel slide">
+  <div class="carousel-inner">
+    <% section.questions.forEach((question, index) => { %>
+      <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div>
+                <form id="questionForm<%= index %>" action="/sections/<%= section.id %>/question" method="POST"> <!-- Add unique ID to form -->
+                  <img src="<%= question.image.url %>" alt="">
+                  <p class="text-center"><%= question.question %></p>                
+                  <input type="hidden" name="questions[question]" value="<%= question._id %>">
+                  <ul class="list-unstyled">
+                    <% question.answers.forEach((answer) => { %>
+                      <li>
+                        <input type="radio" name="questions[answers]" value="<%= answer.isCorrect %>">
+                        <%= answer.answerText %>
+                      </li>
+                    <% }) %>
+                  </ul>
+                  <% if (user.answeredQuestions.includes(question._id)) { %>
+                    <button type="button" class="btn btn-primary d-block mx-auto" disabled>Question Answered</button>
+                  <% } else { %>
+                    <button type="submit" class="btn btn-primary d-block mx-auto">Submit Answer</button>
+                  <% } %>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<% function allQuestionsAnswered(section, user) { %>
+  <% return section.questions.every(question => user.answeredQuestions.includes(question._id)); %>
+<% } %>
+
+<% if (allQuestionsAnswered(section, user)) { %>
+  <div>
+      <a href="/sections/scores" class="btn btn-primary">View Score</a>
+  </div>
+<% } %>
+
+<div>
+    <a href="/sections">Back to Sections</a>
+</div>

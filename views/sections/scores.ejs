@@ -1,0 +1,21 @@
+<% layout('layouts/boilerplate') %>
+<div class="container">
+  <h1 class="mt-4">Your Score</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <p>Your Total Score: <%= user.scores %></p>
+    </div>
+    <div class="col-md-6">
+      <p>Questions Answered: <%= user.answeredQuestions.length %></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <% if (user.answeredQuestions.length > 0) { %>
+        <p>Average Score per Answered Question: <%= user.scores / user.answeredQuestions.length %></p>
+      <% } else { %>
+        <p>No questions answered yet.</p>
+      <% } %>
+    </div>
+  </div>
+</div>

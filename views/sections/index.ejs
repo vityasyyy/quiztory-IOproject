@@ -1,0 +1,10 @@
+<% layout('layouts/boilerplate') %>
+    <% for(let section of sections) { %>
+        <div>
+            <h5><%= section.title %></h5>
+            <p><%= section.description %></p>
+        </div>
+        <a href="/sections/<%= section.id %>">In to the question</a>
+    <% } %>
+
+
