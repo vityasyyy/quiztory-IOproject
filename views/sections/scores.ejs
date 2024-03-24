@@ -3,18 +3,22 @@
   <h1 class="mt-4">Your Score</h1>
   <div class="row">
     <div class="col-md-6">
-      <p>Your Total Score: <%= user.scores %></p>
+      <p>Right answers total: <%= user.scores %></p>
     </div>
     <div class="col-md-6">
-      <p>Questions Answered: <%= user.answeredQuestions.length %></p>
+      <p>Questions Answered: <%= user.answered %></p>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <% if (user.answeredQuestions.length > 0) { %>
-        <p>Average Score per Answered Question: <%= user.scores / user.answeredQuestions.length %></p>
+      <% if (user.answered > 0) { %>
+        <p>How well do you know about Italy: <%= user.scores / user.answered * 100  %>%</p>
+        <form action="/sections/scores" method="POST">
+            <button>Reset progress?</button>
+        </form>
       <% } else { %>
-        <p>No questions answered yet.</p>
+        <p>Answer some question first, your score will later show up here!!</p>
+        <a href="/sections">To sections</a>
       <% } %>
     </div>
   </div>
