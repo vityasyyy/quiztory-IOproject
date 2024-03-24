@@ -7,7 +7,8 @@ router.route('/')
     .get(asyncWrap(sections.index))
 
 router.route('/scores')
-    .get(asyncWrap(sections.showScore))
+    .get(isLoggedIn, asyncWrap(sections.showScore))
+    .post(isLoggedIn, asyncWrap(sections.resetScore))
 
 router.route('/:id')
     .get(isLoggedIn, asyncWrap(sections.sectionsShowPage))
