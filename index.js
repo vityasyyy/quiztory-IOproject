@@ -19,7 +19,7 @@ const usersRoutes = require('./Routes/usersRoutes')
 
 const app = express()
 
-const dbURL = process.env.DBURL
+const dbURL = process.env.DBURL || 'mongodb://127.0.0.1:27017/quiztory'
 const urlParser = {userNewURLParser: true}
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://127.0.0.1:27017/quiztory')
@@ -64,14 +64,16 @@ app.use(
             defaultSrc: ["'self'"],
             connectSrc: ["'self'"],
             scriptSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://cdn.jsdelivr.net"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://kit-free.fontawesome.com", "https://fonts.googleapis.com", "https://use.fontawesome.com", "https://cdn.jsdelivr.net"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com", "https://kit-free.fontawesome.com", "https://fonts.googleapis.com", "https://use.fontawesome.com", "https://cdn.jsdelivr.net", "https://fonts.cdnfonts.com"],
             workerSrc: ["'self'", "blob:"],
             objectSrc: ["'none'"],
             imgSrc: ["'self'", "blob:", "data:", "https://res.cloudinary.com"],
-            fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com", "https://fonts.cdnfonts.com"],
         },
     })
 );
+
+
 
 
 app.use(passport.initialize())
@@ -96,6 +98,9 @@ app.use((req,res,next) => {
     next();
 })
 
+app.get('/', (req, res) => {
+    res.render('sections/homepage')
+})
 app.use('/', usersRoutes)
 app.use('/sections', sectionsRoutes)
 app.use('/sections/:id/question', questionsRoutes)
