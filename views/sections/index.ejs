@@ -1,10 +1,16 @@
 <% layout('layouts/boilerplate') %>
-    <% for(let section of sections) { %>
-        <div>
-            <h5><%= section.title %></h5>
-            <p><%= section.description %></p>
-        </div>
-        <a href="/sections/<%= section.id %>">In to the question</a>
-    <% } %>
+<div class="category-section">
+    <h1>SELECT ASPECT</h1>
+    <div class="category-box">
+        <% for(let section of sections) { %>
+            <div class="cat">
+                <div class="inner-cat">
+                    <a href="/sections/<%= section._id %>"><%= section.title %></a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
 
 

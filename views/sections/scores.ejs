@@ -3,22 +3,25 @@
   <h1 class="mt-4">Your Score</h1>
   <div class="row">
     <div class="col-md-6">
-      <p>Right answers total: <%= user.scores %></p>
+      <p class="score-info"><span class="score-label">Right answers total:</span> <span class="score-value"><%= user.scores %></span></p>
     </div>
     <div class="col-md-6">
-      <p>Questions Answered: <%= user.answered %></p>
+      <p class="score-info"><span class="score-label">Questions Answered:</span> <span class="score-value"><%= user.answered %></span></p>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <% if (user.answered > 0) { %>
-        <p>How well do you know about Italy: <%= user.scores / user.answered * 100  %>%</p>
+        <div class="score-details">
+          <p class="score-label">Your overall score is:</p>
+          <p class="score-value"><%= user.scores / user.answered * 100  %>%</p>
+        </div>
         <form action="/sections/scores" method="POST">
-            <button>Reset progress?</button>
+          <button class="btn btn-primary">Reset Progress</button>
         </form>
       <% } else { %>
-        <p>Answer some question first, your score will later show up here!!</p>
-        <a href="/sections">To sections</a>
+        <p class="no-score-message">Answer some questions first, your score will appear here later!!</p>
+        <a href="/sections" class="btn btn-primary">To Sections</a>
       <% } %>
     </div>
   </div>
