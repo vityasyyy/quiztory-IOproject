@@ -1,5 +1,3 @@
-const Question = require('../Models/questionsSchema')
-const Section = require('../Models/sectionSchema')
 const User = require('../Models/usersSchema')
 
 module.exports.postAnswer = async (req, res) => {
@@ -10,8 +8,6 @@ module.exports.postAnswer = async (req, res) => {
         res.redirect(`/sections/${id}`)
     } else {
         const questionId = req.body.questions.question
-        const body = req.body
-        console.log(body)
         const user = await User.findByIdAndUpdate(
             req.user._id,
             {$addToSet: {answeredQuestions: questionId}},
@@ -22,15 +18,13 @@ module.exports.postAnswer = async (req, res) => {
                 req.user._id,
                 {$inc: {scores: 1, answered: 1}},
                 {new: true});
-            console.log(user)
-            req.flash('success', "Your answer is correct")
+                req.flash('success', "Thanks for answering")
         } else {
             const user = await User.findByIdAndUpdate(
                 req.user._id,
                 {$inc: {answered: 1}},
                 {new: true});
-            console.log(user)
-            req.flash('error', "Sorry, your answer is incorrect, try again yaa")
+                req.flash('success', "Thanks for answering")
         }
         res.redirect(`/sections/${id}`)
     }
