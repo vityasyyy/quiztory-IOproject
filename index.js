@@ -20,7 +20,6 @@ const usersRoutes = require('./Routes/usersRoutes')
 const app = express()
 
 const dbURL = process.env.DBURL || 'mongodb://127.0.0.1:27017/quiztory'
-const urlParser = {userNewURLParser: true}
 mongoose.set('strictQuery', true);
 mongoose.connect(dbURL)
     .then(() => {
