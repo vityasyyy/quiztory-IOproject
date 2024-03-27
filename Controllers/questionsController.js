@@ -18,13 +18,11 @@ module.exports.postAnswer = async (req, res) => {
                 req.user._id,
                 {$inc: {scores: 1, answered: 1}},
                 {new: true});
-                req.flash('success', "Thanks for answering")
         } else {
             const user = await User.findByIdAndUpdate(
                 req.user._id,
                 {$inc: {answered: 1}},
                 {new: true});
-                req.flash('success', "Thanks for answering")
         }
         res.redirect(`/sections/${id}`)
     }

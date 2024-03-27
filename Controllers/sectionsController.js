@@ -25,7 +25,5 @@ module.exports.showScore = async(req, res) => {
 
 module.exports.resetScore = async(req,res) => {
     const user = await User.findByIdAndUpdate(req.user._id, {scores: 0, answeredQuestions: [], answered: 0})
-    console.log(user)
     res.redirect('/sections/scores')
-
 }
