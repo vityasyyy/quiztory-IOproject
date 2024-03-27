@@ -22,7 +22,7 @@ const app = express()
 const dbURL = process.env.DBURL || 'mongodb://127.0.0.1:27017/quiztory'
 const urlParser = {userNewURLParser: true}
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://127.0.0.1:27017/quiztory')
+mongoose.connect(dbURL)
     .then(() => {
         console.log("MONGO CONNECTED!!");
     })
@@ -72,8 +72,6 @@ app.use(
         },
     })
 );
-
-
 
 
 app.use(passport.initialize())
