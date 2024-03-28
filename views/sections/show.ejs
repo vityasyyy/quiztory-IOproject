@@ -3,47 +3,36 @@
   <div class="container">
     <h1>QUESTION</h1>
     <div class="carousel-inner">
-      <% 
-      let firstUnansweredIndex = 0; // Initialize the index of the first unanswered question
-      section.questions.forEach((question, index) => {
-        // Find the index of the first unanswered question
-        if (!user.answeredQuestions.includes(question._id) && index >= firstUnansweredIndex) {
-          firstUnansweredIndex = index;
-        }
-      }); 
-      
-      // Loop through questions starting from the first unanswered question
-      for (let index = firstUnansweredIndex; index < section.questions.length; index++) { 
-        const question = section.questions[index];
-      %>
-        <div class="carousel-item <%= index === firstUnansweredIndex ? 'active' : '' %>">
-          <div class="row justify-content-center">
-            <div class="col-md-8">
-              <div>
-                <form id="questionForm<%= index %>" action="/sections/<%= section.id %>/question" method="POST"> <!-- Add unique ID to form -->
-                  <img src="<%= question.image.url %>" alt="">
-                  <p class="question text-center"><%= question.question %></p>                
-                  <input type="hidden" name="questions[question]" value="<%= question._id %>">
-                  <ul class="list-unstyled">
-                    <% question.answers.forEach((answer) => { %>
-                      <li class="option">
-                        <input type="radio" name="questions[answers]" value="<%= answer.isCorrect %>">
-                        <%= answer.answerText %>
-                      </li>
-                    <% }) %>
-                  </ul>
-                  <% if (user.answeredQuestions.includes(question._id)) { %>
-                    <button type="button" class="btn btn-primary d-block mx-auto" disabled>Question Answered</button>
-                    <a href="/sections" class="btn btn-primary">Back to Sections</a>
-                  <% } else { %>
+      <% if (section && section.questions && section.questions.length > 0) { %>
+        <% 
+        const unansweredQuestions = section.questions.filter(question => !user.answeredQuestions.includes(question._id));
+        unansweredQuestions.forEach((question, index) => { %>
+          <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div>
+                  <form id="questionForm<%= index %>" action="/sections/<%= section.id %>/question" method="POST"> <!-- Add unique ID to form -->
+                    <img src="<%= question.image.url %>" alt="">
+                    <p class="question text-center"><%= question.question %></p>                
+                    <input type="hidden" name="questions[question]" value="<%= question._id %>">
+                    <ul class="list-unstyled">
+                      <% question.answers.forEach((answer) => { %>
+                        <li class="option">
+                          <input type="radio" name="questions[answers]" value="<%= answer.isCorrect %>">
+                          <%= answer.answerText %>
+                        </li>
+                      <% }) %>
+                    </ul>
                     <button type="submit" class="btn btn-primary d-block mx-auto">Submit Answer</button>
                     <a href="/sections" class="btn btn-primary">Back to Sections</a>
-                  <% } %>
-                </form>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        <% }); %>
+      <% } else { %>
+        <p>No questions available.</p>
       <% } %>
     </div>
     <% function allQuestionsAnswered(section, user) { %>
