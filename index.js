@@ -10,7 +10,6 @@ const LocalStrategy = require('passport-local');
 const mongoSanitize = require('express-mongo-sanitize')
 const MongoStore = require('connect-mongo')
 const ExpressError = require('./Middleware/ExpressError')
-const mongoose = require('mongoose')
 const User = require('./Models/usersSchema')
 
 const sectionsRoutes = require('./Routes/sectionsRoutes')
@@ -20,8 +19,11 @@ const usersRoutes = require('./Routes/usersRoutes')
 const app = express()
 
 const dbURL = process.env.DBURL || 'mongodb://127.0.0.1:27017/quiztory'
+const urlParser = {useNewURLParser: true}
+const mongoose = require('mongoose')
+
 mongoose.set('strictQuery', true);
-mongoose.connect(dbURL)
+mongoose.connect(dbURL, urlParser)
     .then(() => {
         console.log("MONGO CONNECTED!!");
     })
@@ -49,8 +51,8 @@ const sessionConfig = {
     saveUninitialized: false,
     cookies: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        expires: Date.now() + 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24
     }
 }
 
